@@ -6,14 +6,14 @@
 //
 
 import Cocoa
+import Firebase
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    
-
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        FirebaseApp.configure()
         // Insert code here to initialize your application
     }
 
