@@ -11,15 +11,12 @@ import SwiftSoup
 class ParserFromNY {
     
     private var news = [News]()
-    private let strNewsURL = "https://www.nytimes.com/section/world"
+    private let strNewsWorldURL = "https://www.nytimes.com/section/world"
     
-    private var getURL: String {
-        let splitURL = strNewsURL.split(separator: "/")
-        return String(splitURL[1])
-    }
+    private var mainURL = "https://www.nytimes.com"
     
-    private func getURLTreeFromStr() -> String {
-        guard let url = URL(string: strNewsURL) else  { return "Error" }
+    private func getURLTreeFromStr(strURL: String) -> String {
+        guard let url = URL(string: strURL) else  { return "Error" }
         let contents = try! String(contentsOf: url)
         return contents
     }
@@ -40,7 +37,7 @@ class ParserFromNY {
     }
     
     func getLinks() throws {
-        let doc : Document = parseToHTML(html: getURLTreeFromStr())
+        let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: strNewsWorldURL))
         let latestNews = try doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first()
 //        let body = try doc.select("body").first()!
 //        let firstDiv = try body.select("div").first()!
@@ -106,10 +103,10 @@ class ParserFromNY {
 //        let dateDiv = try firstDiv.select("div.css-1lc2l26.e1xfvim33").first()!
         
         let a = try element.select("div > div.css-1l4spti > a")
+        if let video = try a.select("h3 > span.css-1a54gqt").first() { return }
         
-        let newsTitleAndAuthorAndText = try a.text()
         //MARK: - Get newsURL
-        let newsURL = try self.getURL + a.attr("href")
+        let newsURL = try self.mainURL + a.attr("href")
         
         
         //MARK: - Get title
@@ -134,17 +131,63 @@ class ParserFromNY {
         let titleImage = try a.select("div.css-79elbk > figure > div > img").first()!.attr("src")
         
         
-        //MARK: - Get title image
+        //MARK: - Get main news data
+       try getNewsMainData(newsURL: newsURL)
         
-        
-        print(titleImage)
+        //print(titleImage)
         
         
         
     }
     
+    private func splitTextUnderTitleImage(text: String) -> String {
+        let splitText = text.split(separator: ".")
+        return String(splitText.first! + ". " + splitText.last!)
+    }
     
-    private func getNewsMainData() {
+    
+    private func getNewsMainData(newsURL: String) throws -> (date: String,textArray: [String],textUnderTitleImage: String) {
+        let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: newsURL))
+        var textArray = [String]()
+        
+        let mainArticle = try doc.select("body #app > div > div > div:nth-child(2) > #site-content > div > #story").first()!
+        
+        //MARK: - Get text under title image and date
+        var textUnderTitleImage = String()
+        var date = String()
+        if let header = try mainArticle.select("header").first(), let div = try header.select("div.css-79elbk").first() {
+            textUnderTitleImage = try div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
+            date = try header.select("div.css-18e8msd > ul > li > time").first()!.text()
+            
+        } else if let headerDiv = try mainArticle.select("div.css-1422fwo").first() {
+            textUnderTitleImage = try headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
+            date = try headerDiv.select("div.css-pscyww > div > span > time > div").text()
+            
+        } else if let secondHeaderDiv = try mainArticle.select("div.css-79elbk").first() {
+            textUnderTitleImage = try secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
+            date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").text()
+        } else {
+        
+        }
+        textUnderTitleImage = splitTextUnderTitleImage(text: textUnderTitleImage)
+        
+        
+        
+        
+        //MARK: - Get main text
+        let articleBody = try mainArticle.select("section").first()!
+        for element in articleBody.children() {
+            guard let textDiv = try element.select("div.css-1fanzo5.StoryBodyCompanionColumn > div").first() else {continue}
+            for textElement in textDiv.children() {
+                if textElement.hasClass("css-axufdj") {
+                    try textArray.append(textElement.text())
+                }
+            }
+            
+        }
+        
+        print(textArray)
+        return (date,textArray,textUnderTitleImage)
         
     }
     
