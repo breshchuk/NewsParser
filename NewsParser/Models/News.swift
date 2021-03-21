@@ -10,7 +10,6 @@ import Firebase
 
 struct News {
     
-    let newsHash : String
     let newsURL : String
     let title : String
     var titleImageURL : String? = nil
@@ -23,21 +22,20 @@ struct News {
     let tags: [String]
     var ref: DatabaseReference?
     
-    init(newsHash: String,newsURL: String, title: String,titleImageURL: String,textUnderTitleImage: String, author: [String], language: String, date: String, text: [String], imagesURL: [String], tags: [String]) {
-        self.init(newsHash: newsHash, newsURL: newsURL, title: title, author: author, language: language, date: date, text: text, tags: tags)
+    init(newsURL: String, title: String,titleImageURL: String,textUnderTitleImage: String, author: [String], language: String, date: String, text: [String], imagesURL: [String], tags: [String]) {
+        self.init(newsURL: newsURL, title: title, author: author, language: language, date: date, text: text, tags: tags)
         self.titleImageURL = titleImageURL
         self.textUnderTitleImage = textUnderTitleImage
         self.imagesURL = imagesURL
     }
     
-    init(newsHash: String,newsURL: String, title: String,titleImageURL: String,textUnderTitleImage: String, author: [String], language: String, date: String, text: [String], tags: [String]) {
-        self.init(newsHash: newsHash, newsURL: newsURL, title: title, author: author, language: language, date: date, text: text, tags: tags)
+    init(newsURL: String, title: String,titleImageURL: String,textUnderTitleImage: String, author: [String], language: String, date: String, text: [String], tags: [String]) {
+        self.init(newsURL: newsURL, title: title, author: author, language: language, date: date, text: text, tags: tags)
         self.textUnderTitleImage = textUnderTitleImage
         self.titleImageURL = titleImageURL
     }
     
-    init(newsHash: String,newsURL: String, title: String, author: [String], language: String, date: String, text: [String], tags: [String]) {
-        self.newsHash = newsHash
+    init(newsURL: String, title: String, author: [String], language: String, date: String, text: [String], tags: [String]) {
         self.newsURL = newsURL
         self.title = title
         self.author = author
