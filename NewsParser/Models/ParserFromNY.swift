@@ -10,7 +10,7 @@ import SwiftSoup
 
 class ParserFromNY {
     
-    private var news = [News]()
+    private var newsArray = [News]()
     private let strNewsWorldURL = "https://www.nytimes.com/section/world"
     
     private var mainURL = "https://www.nytimes.com"
@@ -36,7 +36,7 @@ class ParserFromNY {
         
     }
     
-    func getLinks() throws {
+    func getNews() throws -> [News] {
         let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: strNewsWorldURL))
         let latestNews = try doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first()
         
@@ -49,6 +49,7 @@ class ParserFromNY {
         } else {
             
         }
+        return newsArray
     }
     
    private func getAuthors(authors: String) -> [String] {
@@ -91,14 +92,15 @@ class ParserFromNY {
     private func getNewsTitleData(element: Element) throws {
         
         let a = try element.select("div > div.css-1l4spti > a")
-        if let video = try a.select("h3 > span.css-1a54gqt").first() { return }
+        // Check if post is video
+        if let _ = try a.select("h3 > span.css-1a54gqt").first() { return }
         
         //MARK: - Get newsURL
         let newsURL = try self.mainURL + a.attr("href")
         
         
         //MARK: - Get tag
-        let tag = try String(a.attr("href").split(separator: "/")[3])
+        let tags = try [String(a.attr("href").split(separator: "/")[3])]
         
         
         //MARK: - Get title
@@ -116,7 +118,7 @@ class ParserFromNY {
         
         
         //MARK: - Get title image
-        let titleImage = try a.select("div.css-79elbk > figure > div > img").first()!.attr("src")
+        let titleImageURL = try a.select("div.css-79elbk > figure > div > img").first()!.attr("src")
         
         
         //MARK: - Get main news data(tuple)
@@ -138,7 +140,10 @@ class ParserFromNY {
         //MARK: - Get imagesURL
         let imagesURL = mainNewsData.imagesURLArray
         
-    
+        let language = "en"
+        
+        let news = News(newsURL: newsURL, title: title,briefExplanation: briefExplanation, titleImageURL: titleImageURL, textUnderTitleImage: textUnderTitleImage, author: authorsArray, language: language, date: date, text: text, imagesURL: imagesURL, tags: tags)
+        newsArray.append(news)
     }
     
     private func splitTextUnderImage(text: String) -> String {
