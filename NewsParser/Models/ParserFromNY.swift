@@ -109,6 +109,10 @@ class ParserFromNY {
         let newsURL = try self.mainURL + a.attr("href")
         
         
+        //MARK: - Get tag
+        let tag = try String(a.attr("href").split(separator: "/").first!)
+        
+        
         //MARK: - Get title
         let title = try a.select("h2").text()
         
@@ -132,7 +136,7 @@ class ParserFromNY {
         
         
         //MARK: - Get main news data
-       try getNewsMainData(newsURL: newsURL)
+       let mainNewsData = try getNewsMainData(newsURL: newsURL)
         
         //print(titleImage)
         
@@ -140,15 +144,53 @@ class ParserFromNY {
         
     }
     
-    private func splitTextUnderTitleImage(text: String) -> String {
+    private func splitTextUnderImage(text: String) -> String {
         let splitText = text.split(separator: ".")
-        return String(splitText.first! + ". " + splitText.last!)
+        if let text = splitText.first, let source = splitText.last {
+            if text.contains("Credit") {
+                return String(source)
+            } else {
+                return String(text + ". " + source)
+            }
+        }
+        return String()
+    }
+     
+    //MARK: - Get main news text function
+    private func getMainText(textDiv: Element) throws -> [String] {
+        var textArray = [String]()
+        for textElement in textDiv.children() {
+            if textElement.hasClass("css-axufdj") {
+                textArray.append(try textElement.text())
+            } else if textElement.hasClass("css-1aoo5yy") {
+                try textArray.append("Bold-> " + textElement.text())
+            }
+        }
+        return textArray
+    }
+   
+    //MARK: - Get image
+    private func getImage(imageDiv: Element) throws -> String {
+        if let imageURL = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > div > picture > img").first()?.attr("src") {
+            return imageURL
+        } else if let imageURL = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > div > div > div > picture > img").first()?.attr("src") {
+            return imageURL
+        }
+        return String()
+    }
+    
+    //MARK: - Get text under image
+    private func getTextUnderImage(imageDiv: Element) throws -> String {
+        guard var textUnderImage = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90").first()?.text() else { return String() }
+        textUnderImage = splitTextUnderImage(text: textUnderImage)
+        return textUnderImage
     }
     
     
-    private func getNewsMainData(newsURL: String) throws -> (date: String,textArray: [String],textUnderTitleImage: String) {
+    private func getNewsMainData(newsURL: String) throws -> (date: String,textArray: [String],textUnderTitleImage: String,imagesArray: [String]) {
         let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: newsURL))
         var textArray = [String]()
+        var imagesArray = [String]()
         
         let mainArticle = try doc.select("body #app > div > div > div:nth-child(2) > #site-content > div > #story").first()!
         
@@ -169,25 +211,20 @@ class ParserFromNY {
         } else {
         
         }
-        textUnderTitleImage = splitTextUnderTitleImage(text: textUnderTitleImage)
-        
-        
-        
+        textUnderTitleImage = splitTextUnderImage(text: textUnderTitleImage)
         
         //MARK: - Get main text
         let articleBody = try mainArticle.select("section").first()!
         for element in articleBody.children() {
-            guard let textDiv = try element.select("div.css-1fanzo5.StoryBodyCompanionColumn > div").first() else {continue}
-            for textElement in textDiv.children() {
-                if textElement.hasClass("css-axufdj") {
-                    try textArray.append(textElement.text())
-                }
+            if let textDiv = try element.select("div.css-1fanzo5.StoryBodyCompanionColumn > div").first() {
+                textArray.append(contentsOf: try getMainText(textDiv: textDiv))
+            } else if let imageDiv = try element.select("div.css-79elbk").first() {
+                imagesArray.append(try getImage(imageDiv: imageDiv))
+                try textArray.append("Image->\(imagesArray.count - 1) " + getTextUnderImage(imageDiv: imageDiv))
             }
-            
         }
         
-        print(textArray)
-        return (date,textArray,textUnderTitleImage)
+        return (date,textArray,textUnderTitleImage,imagesArray)
         
     }
     
