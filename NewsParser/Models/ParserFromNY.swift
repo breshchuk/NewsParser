@@ -39,15 +39,6 @@ class ParserFromNY {
     func getLinks() throws {
         let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: strNewsWorldURL))
         let latestNews = try doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first()
-//        let body = try doc.select("body").first()!
-//        let firstDiv = try body.select("div").first()!
-//        let secondDiv = try firstDiv.select("div[aria-hidden]").first()!
-//        let section = try secondDiv.select("section#collection-world").first()!
-//        let thirdDiv = try section.select("div.css-psuupz.e1o5byef0").first()!
-//        let fouthDiv = try thirdDiv.select("div.css-15cbhtu").first()!
-//        let secondSection = try fouthDiv.select("section#stream-panel").first()!
-//        let fifthDiv = try secondSection.select("div.css-13mho3u").first()!
-//        let ol = try fifthDiv.select("ol[aria-live]").first()!
         
         if let ln = latestNews {
         for element : Element in ln.children() {
@@ -98,9 +89,6 @@ class ParserFromNY {
     }
     
     private func getNewsTitleData(element: Element) throws {
-//        let firstDiv = try element.select("div.css-1cp3ece").first()!
-//        let secDiv = try firstDiv.select("div.css-1l4spti").first()!
-//        let dateDiv = try firstDiv.select("div.css-1lc2l26.e1xfvim33").first()!
         
         let a = try element.select("div > div.css-1l4spti > a")
         if let video = try a.select("h3 > span.css-1a54gqt").first() { return }
@@ -116,11 +104,7 @@ class ParserFromNY {
         //MARK: - Get title
         let title = try a.select("h2").text()
         
-        
-        //MARK: - Get date
-        let date = try a.select("div.css-1lc2l26.e1xfvim33 > span").text()
-        
-        
+    
         //MARK: - Get authors
         let authors = try a.select("div.css-1nqbnmb.ea5icrr0 > p").first()!
         var authorsArray = [String]()
@@ -135,12 +119,24 @@ class ParserFromNY {
         let titleImage = try a.select("div.css-79elbk > figure > div > img").first()!.attr("src")
         
         
-        //MARK: - Get main news data
+        //MARK: - Get main news data(tuple)
        let mainNewsData = try getNewsMainData(newsURL: newsURL)
         
-        //print(titleImage)
+        
+        //MARK: - Get date
+        let date = mainNewsData.date
         
         
+        //MARK: - Get text under title image
+        let textUnderTitleImage = mainNewsData.textUnderTitleImage
+        
+        
+        //MARK: - Get main text
+        let text = mainNewsData.textArray
+        
+        
+        //MARK: - Get imagesURL
+        let imagesURL = mainNewsData.imagesURLArray
         
     }
     
@@ -187,10 +183,10 @@ class ParserFromNY {
     }
     
     
-    private func getNewsMainData(newsURL: String) throws -> (date: String,textArray: [String],textUnderTitleImage: String,imagesArray: [String]) {
+    private func getNewsMainData(newsURL: String) throws -> (date: String,textArray: [String],textUnderTitleImage: String,imagesURLArray: [String]) {
         let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: newsURL))
         var textArray = [String]()
-        var imagesArray = [String]()
+        var imagesURLArray = [String]()
         
         let mainArticle = try doc.select("body #app > div > div > div:nth-child(2) > #site-content > div > #story").first()!
         
@@ -219,12 +215,12 @@ class ParserFromNY {
             if let textDiv = try element.select("div.css-1fanzo5.StoryBodyCompanionColumn > div").first() {
                 textArray.append(contentsOf: try getMainText(textDiv: textDiv))
             } else if let imageDiv = try element.select("div.css-79elbk").first() {
-                imagesArray.append(try getImage(imageDiv: imageDiv))
-                try textArray.append("Image->\(imagesArray.count - 1) " + getTextUnderImage(imageDiv: imageDiv))
+                imagesURLArray.append(try getImage(imageDiv: imageDiv))
+                try textArray.append("Image->\(imagesURLArray.count - 1) " + getTextUnderImage(imageDiv: imageDiv))
             }
         }
         
-        return (date,textArray,textUnderTitleImage,imagesArray)
+        return (date,textArray,textUnderTitleImage,imagesURLArray)
         
     }
     
