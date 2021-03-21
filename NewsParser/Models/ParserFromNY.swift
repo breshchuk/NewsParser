@@ -98,7 +98,7 @@ class ParserFromNY {
         
         
         //MARK: - Get tag
-        let tag = try String(a.attr("href").split(separator: "/").first!)
+        let tag = try String(a.attr("href").split(separator: "/")[3])
         
         
         //MARK: - Get title
@@ -138,18 +138,19 @@ class ParserFromNY {
         //MARK: - Get imagesURL
         let imagesURL = mainNewsData.imagesURLArray
         
+    
     }
     
     private func splitTextUnderImage(text: String) -> String {
         let splitText = text.split(separator: ".")
-        if let text = splitText.first, let source = splitText.last {
+        if let text = splitText.first, let source = splitText.last, text != source {
             if text.contains("Credit") {
                 return String(source)
             } else {
                 return String(text + ". " + source)
             }
         }
-        return String()
+        return text
     }
      
     //MARK: - Get main news text function
@@ -189,7 +190,6 @@ class ParserFromNY {
         var imagesURLArray = [String]()
         
         let mainArticle = try doc.select("body #app > div > div > div:nth-child(2) > #site-content > div > #story").first()!
-        
         //MARK: - Get text under title image and date
         var textUnderTitleImage = String()
         var date = String()
@@ -204,13 +204,14 @@ class ParserFromNY {
         } else if let secondHeaderDiv = try mainArticle.select("div.css-79elbk").first() {
             textUnderTitleImage = try secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
             date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").text()
-        } else {
-        
+        } else if let fullBleedHeaderContent = try mainArticle.select("#fullBleedHeaderContent").first() {
+            textUnderTitleImage = try fullBleedHeaderContent.select("div.css-yi0xdk.e1gnum310 > p > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2) > span").text()
+            date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").text()
         }
         textUnderTitleImage = splitTextUnderImage(text: textUnderTitleImage)
         
         //MARK: - Get main text
-        let articleBody = try mainArticle.select("section").first()!
+        let articleBody = try mainArticle.select("[name=articleBody]").first()!
         for element in articleBody.children() {
             if let textDiv = try element.select("div.css-1fanzo5.StoryBodyCompanionColumn > div").first() {
                 textArray.append(contentsOf: try getMainText(textDiv: textDiv))
