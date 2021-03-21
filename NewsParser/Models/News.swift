@@ -10,40 +10,41 @@ import Firebase
 
 struct News {
     
+    let newsHash : String
     let newsURL : String
     let title : String
-    let titleImageURL : String
+    var titleImageURL : String? = nil
+    var textUnderTitleImage : String? = nil
     let author: [String]
     let language: String
     let date: String
     let text: [String]
-    let imagesURL : [String]
+    var imagesURL : [String]? = nil
     let tags: [String]
     var ref: DatabaseReference?
     
-    init(newsID: String, title: String,titleImageURL: String, author: [String], language: String, date: String, text: [String], imagesURL: [String], tags: [String]) {
-        self.newsURL = newsID
-        self.title = title
+    init(newsHash: String,newsURL: String, title: String,titleImageURL: String,textUnderTitleImage: String, author: [String], language: String, date: String, text: [String], imagesURL: [String], tags: [String]) {
+        self.init(newsHash: newsHash, newsURL: newsURL, title: title, author: author, language: language, date: date, text: text, tags: tags)
         self.titleImageURL = titleImageURL
+        self.textUnderTitleImage = textUnderTitleImage
+        self.imagesURL = imagesURL
+    }
+    
+    init(newsHash: String,newsURL: String, title: String,titleImageURL: String,textUnderTitleImage: String, author: [String], language: String, date: String, text: [String], tags: [String]) {
+        self.init(newsHash: newsHash, newsURL: newsURL, title: title, author: author, language: language, date: date, text: text, tags: tags)
+        self.textUnderTitleImage = textUnderTitleImage
+        self.titleImageURL = titleImageURL
+    }
+    
+    init(newsHash: String,newsURL: String, title: String, author: [String], language: String, date: String, text: [String], tags: [String]) {
+        self.newsHash = newsHash
+        self.newsURL = newsURL
+        self.title = title
         self.author = author
         self.language = language
         self.date = date
         self.text = text
-        self.imagesURL = imagesURL
         self.tags = tags
     }
     
-    init(snapshot: DataSnapshot) {
-        let snapshotValue = snapshot.value as! [String: AnyObject]
-        title = snapshotValue["title"] as! String
-        titleImageURL = snapshotValue["titleImageURL"] as! String
-        newsURL = snapshotValue["newsURL"] as! String
-        author = snapshotValue["author"] as! [String]
-        language = snapshotValue["language"] as! String
-        date = snapshotValue["date"] as! String
-        text = snapshotValue["text"] as! [String]
-        imagesURL = snapshotValue["imagesURL"] as! [String]
-        tags = snapshotValue["tags"] as! [String]
-        ref = snapshot.ref
-    }
 }
