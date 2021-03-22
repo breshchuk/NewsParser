@@ -11,15 +11,31 @@ import Firebase
 
 class ViewController: NSViewController {
     
+    var newsArray = [News]()
+    var parsers: [NewsParserProtocol] = [ParserFromNY()]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         FirebaseApp.configure()
-        let parser = ParserFromNY()
-        var newsArray = [News]()
+        
+        //MARK: - Check user
+        if Auth.auth().currentUser == nil {
+            Auth.auth().signIn(withEmail: "breschuk1@gmail.com", password: "Test123")
+        }
+        
+        let timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
+        
+        timer.fire()
+    }
+    
+    
+    @objc private func updateNews() {
         
         //MARK: - Parse data
         do {
-        newsArray = try parser.getNews()
+            for parser in parsers {
+                newsArray.append(contentsOf: try parser.getNews())
+            }
         } catch Exception.Error(let type, let message) {
             print(type)
             print(message)
@@ -27,11 +43,7 @@ class ViewController: NSViewController {
             print(error.localizedDescription)
         }
         
-        //MARK: - Check user
-        if Auth.auth().currentUser == nil {
-            Auth.auth().signIn(withEmail: "breschuk1@gmail.com", password: "Test123")
-            
-        }
+        
         //MARK: - Save data
         let saver = SaveToFirebase()
         
@@ -39,6 +51,7 @@ class ViewController: NSViewController {
             saver.saveNews(news: item)
         }
         
+        newsArray.removeAll()
     }
 
     override var representedObject: Any? {
