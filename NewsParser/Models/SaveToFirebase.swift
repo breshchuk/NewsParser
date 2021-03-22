@@ -7,31 +7,19 @@
 
 import Foundation
 import Firebase
+import CryptoKit
 
 class SaveToFirebase {
-    var ref : DatabaseReference!
-    var latestNewsURL : String!
+    var ref = Database.database().reference().child("news")
     
-    init() {
-        ref = Database.database().reference().child("news")
-        ref.observe(.value) { [weak self] (snapshot) in
-            for item in snapshot.children {
-                let snapNews = item as! DataSnapshot
-                let value = snapNews.value as! [String: AnyObject]
-                self?.latestNewsURL = value["newsURL"] as? String
-                break
-            }
-            
-        }
+    func createMD5forNews(newsURL: String) -> String {
+        let hash = Insecure.MD5.hash(data: newsURL.data(using: .utf8)!)
+        return hash.map { String(format: "%02hhx", $0) }.joined()
     }
     
     func saveNews(news: News) {
-        let newsRef = self.ref.childByAutoId()
+        let md5 = createMD5forNews(newsURL: news.newsURL)
+        let newsRef = self.ref.child(md5)
         newsRef.setValue(news.convertToDict())
-    }
-    
-    
-    deinit {
-        ref.removeAllObservers()
     }
 }
