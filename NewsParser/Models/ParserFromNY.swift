@@ -8,16 +8,17 @@
 import Foundation
 import SwiftSoup
 
-class ParserFromNY {
+class ParserFromNY: NewsParserProtocol {
+    
     
     private var newsArray = [News]()
     private let strNewsWorldURL = "https://www.nytimes.com/section/world"
     
     private var mainURL = "https://www.nytimes.com"
     
-    private func getURLTreeFromStr(strURL: String) -> String {
-        guard let url = URL(string: strURL) else  { return "Error" }
-        let contents = try! String(contentsOf: url)
+    private func getURLTreeFromStr(strURL: String) throws -> String {
+        guard let url = URL(string: strURL) else  { throw Exception.Error(type: ExceptionType.MalformedURLException, Message: "Can't get URL") }
+        guard let contents = try? String(contentsOf: url) else { throw Exception.Error(type: ExceptionType.MalformedURLException, Message: "Can't get URL contents") }
         return contents
     }
     
@@ -37,11 +38,9 @@ class ParserFromNY {
     }
     
     func getNews() throws -> [News] {
-        let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: strNewsWorldURL))
-        let latestNews = try doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first()
-        
-        if let ln = latestNews {
-        for element : Element in ln.children() {
+        let doc : Document = try parseToHTML(html: getURLTreeFromStr(strURL: strNewsWorldURL))
+       if let latestNews = try doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first() {
+        for element : Element in latestNews.children() {
             if element.hasClass("css-ye6x8s") {
               try getNewsTitleData(element: element)
             }
@@ -108,7 +107,7 @@ class ParserFromNY {
         
     
         //MARK: - Get authors
-        let authors = try a.select("div.css-1nqbnmb.ea5icrr0 > p").first()!
+        guard let authors = try a.select("div.css-1nqbnmb.ea5icrr0 > p").first() else { throw Exception.Error(type: ExceptionType.SelectorParseException, Message: "Can't parse authors")}
         var authorsArray = [String]()
         for author in authors.children() {
             try authorsArray = getAuthors(authors: author.text())
@@ -118,7 +117,7 @@ class ParserFromNY {
         
         
         //MARK: - Get title image
-        let titleImageURL = try a.select("div.css-79elbk > figure > div > img").first()!.attr("src")
+        guard let titleImageURL = try a.select("div.css-79elbk > figure > div > img").first()?.attr("src") else {throw Exception.Error(type: ExceptionType.SelectorParseException, Message: "Can't parse titleImageURL")}
         
         
         //MARK: - Get main news data(tuple)
@@ -190,11 +189,11 @@ class ParserFromNY {
     
     
     private func getNewsMainData(newsURL: String) throws -> (date: String,textArray: [String],textUnderTitleImage: String,imagesURLArray: [String]) {
-        let doc : Document = parseToHTML(html: getURLTreeFromStr(strURL: newsURL))
+        let doc : Document = try parseToHTML(html: getURLTreeFromStr(strURL: newsURL))
         var textArray = [String]()
         var imagesURLArray = [String]()
         
-        let mainArticle = try doc.select("body #app > div > div > div:nth-child(2) > #site-content > div > #story").first()!
+        guard let mainArticle = try doc.select("body #app > div > div > div:nth-child(2) > #site-content > div > #story").first() else {throw Exception.Error(type: ExceptionType.SelectorParseException, Message: "Can't parse main article")}
         //MARK: - Get text under title image and date
         var textUnderTitleImage = String()
         var date = String()
@@ -209,6 +208,7 @@ class ParserFromNY {
         } else if let secondHeaderDiv = try mainArticle.select("div.css-79elbk").first() {
             textUnderTitleImage = try secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
             date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").text()
+            
         } else if let fullBleedHeaderContent = try mainArticle.select("#fullBleedHeaderContent").first() {
             textUnderTitleImage = try fullBleedHeaderContent.select("div.css-yi0xdk.e1gnum310 > p > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2) > span").text()
             date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").text()
@@ -216,7 +216,7 @@ class ParserFromNY {
         textUnderTitleImage = splitTextUnderImage(text: textUnderTitleImage)
         
         //MARK: - Get main text
-        let articleBody = try mainArticle.select("[name=articleBody]").first()!
+        guard let articleBody = try mainArticle.select("[name=articleBody]").first() else {throw Exception.Error(type: ExceptionType.SelectorParseException, Message: "Can't parse articleBody")}
         for element in articleBody.children() {
             if let textDiv = try element.select("div.css-1fanzo5.StoryBodyCompanionColumn > div").first() {
                 textArray.append(contentsOf: try getMainText(textDiv: textDiv))
