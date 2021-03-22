@@ -48,7 +48,7 @@ struct News {
 
     func convertToDict() -> Any {
         var mainReturn: [String: Any] = ["newsURL": newsURL, "title": title, "briefExplanation": briefExplanation ,"author": author, "language": language, "date": date, "text": text, "tags": tags]
-        if let imagesURL = imagesURL, !imagesURL.first!.isEmpty {
+        if let imagesURL = imagesURL, !imagesURL.isEmpty, !imagesURL.first!.isEmpty {
             mainReturn["imageURL"] = imagesURL
         }
         
