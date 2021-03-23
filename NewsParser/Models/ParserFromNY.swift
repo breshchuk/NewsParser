@@ -144,18 +144,6 @@ class ParserFromNY: NewsParserProtocol {
         let news = News(newsURL: newsURL, title: title,briefExplanation: briefExplanation, titleImageURL: titleImageURL, textUnderTitleImage: textUnderTitleImage, author: authorsArray, language: language, date: date, text: text, imagesURL: imagesURL, tags: tags)
         newsArray.append(news)
     }
-    
-    private func splitTextUnderImage(text: String) -> String {
-        let splitText = text.split(separator: ".")
-        if let text = splitText.first, let source = splitText.last, text != source {
-            if text.contains("Credit") {
-                return String(source)
-            } else {
-                return String(text + ". " + source)
-            }
-        }
-        return text
-    }
      
     //MARK: - Get main news text function
     private func getMainText(textDiv: Element) throws -> [String] {
@@ -179,12 +167,15 @@ class ParserFromNY: NewsParserProtocol {
         }
         return String()
     }
-    
     //MARK: - Get text under image
     private func getTextUnderImage(imageDiv: Element) throws -> String {
-        guard var textUnderImage = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90").first()?.text() else { return String() }
-        textUnderImage = splitTextUnderImage(text: textUnderImage)
-        return textUnderImage
+        if let textUnderImage = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").first()?.text() {
+            guard let textUnderImageAuthor = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").first()?.text() else { return textUnderImage }
+            return textUnderImage + textUnderImageAuthor
+        } else if let textUnderImage = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span > span:nth-child(2)").first()?.text() {
+            return textUnderImage
+        }
+        return String()
     }
     
     
@@ -199,23 +190,20 @@ class ParserFromNY: NewsParserProtocol {
         var textUnderTitleImage = String()
         var date = String()
         if let header = try mainArticle.select("header").first(), let div = try header.select("div.css-79elbk").first() {
-            textUnderTitleImage = try div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
+            textUnderTitleImage = try div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
             date = try header.select("div.css-18e8msd > ul > li > time").attr("datetime")
             
         } else if let headerDiv = try mainArticle.select("div.css-1422fwo").first() {
-            textUnderTitleImage = try headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
+            textUnderTitleImage = try headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
             date = try headerDiv.select("div.css-pscyww > div > span > time").attr("datetime")
             
         } else if let secondHeaderDiv = try mainArticle.select("div.css-79elbk").first() {
-            textUnderTitleImage = try secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
+            textUnderTitleImage = try secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
             date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").attr("datetime")
-            
         } else if let fullBleedHeaderContent = try mainArticle.select("#fullBleedHeaderContent").first() {
             textUnderTitleImage = try fullBleedHeaderContent.select("div.css-yi0xdk.e1gnum310 > p > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2) > span").text()
             date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").attr("datetime")
         }
-        textUnderTitleImage = splitTextUnderImage(text: textUnderTitleImage)
-        
         //MARK: - Get main text
         guard let articleBody = try mainArticle.select("[name=articleBody]").first() else {throw Exception.Error(type: ExceptionType.SelectorParseException, Message: "Can't parse articleBody")}
         for element in articleBody.children() {
