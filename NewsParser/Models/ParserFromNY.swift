@@ -194,24 +194,25 @@ class ParserFromNY: NewsParserProtocol {
         var imagesURLArray = [String]()
         
         guard let mainArticle = try doc.select("body #app > div > div > div:nth-child(2) > #site-content > div > #story").first() else {throw Exception.Error(type: ExceptionType.SelectorParseException, Message: "Can't parse main article")}
+
         //MARK: - Get text under title image and date
         var textUnderTitleImage = String()
         var date = String()
         if let header = try mainArticle.select("header").first(), let div = try header.select("div.css-79elbk").first() {
             textUnderTitleImage = try div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
-            date = try header.select("div.css-18e8msd > ul > li > time").first()!.text()
+            date = try header.select("div.css-18e8msd > ul > li > time").attr("datetime")
             
         } else if let headerDiv = try mainArticle.select("div.css-1422fwo").first() {
             textUnderTitleImage = try headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
-            date = try headerDiv.select("div.css-pscyww > div > span > time > div").text()
+            date = try headerDiv.select("div.css-pscyww > div > span > time").attr("datetime")
             
         } else if let secondHeaderDiv = try mainArticle.select("div.css-79elbk").first() {
             textUnderTitleImage = try secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption").text()
-            date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").text()
+            date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").attr("datetime")
             
         } else if let fullBleedHeaderContent = try mainArticle.select("#fullBleedHeaderContent").first() {
             textUnderTitleImage = try fullBleedHeaderContent.select("div.css-yi0xdk.e1gnum310 > p > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2) > span").text()
-            date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").text()
+            date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").attr("datetime")
         }
         textUnderTitleImage = splitTextUnderImage(text: textUnderTitleImage)
         
