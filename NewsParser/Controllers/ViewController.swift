@@ -186,5 +186,18 @@ class ViewController: NSViewController {
     }
     
     
+    @IBAction func signOutButtonPressed(_ sender: NSButton) {
+        do {
+            try Auth.auth().signOut()
+            hideOrUnHideElements()
+            emailTextField.stringValue = ""
+            passTextField.stringValue = ""
+            TimerView.isHidden = true
+        } catch {
+            view.presentError(error)
+        }
+    }
+    
+    
 }
 
