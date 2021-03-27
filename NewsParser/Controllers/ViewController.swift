@@ -34,6 +34,8 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var descriptionLabel: NSTextField!
     
+    @IBOutlet weak var parsingIndicator: NSProgressIndicator!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         FirebaseApp.configure()
@@ -58,8 +60,21 @@ class ViewController: NSViewController {
         descriptionLabel.isHidden = !descriptionLabel.isHidden
     }
     
+    private func cancelTimers() {
+        timerToParseIndicator?.invalidate()
+        timerToParseIndicator = nil
+        timer?.invalidate()
+        timer = nil
+        
+    }
+    
+    
     @objc private func updateNews() {
-
+        
+        cancelTimers()
+        parsingIndicator.isHidden = false
+        parsingIndicator.startAnimation(self)
+        
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
         //MARK: - Parse data
         do {
@@ -85,8 +100,12 @@ class ViewController: NSViewController {
         }
             DispatchQueue.main.async {
                  self?.newsArray.removeAll()
+                self?.createTimer(timeInterval: self!.slider.intValue)
+                self?.parsingIndicator.stopAnimation(self)
+                self?.parsingIndicator.isHidden = true
             }
         }
+        
     }
     
     @objc private func updateTimeToParseLabel() {
@@ -144,28 +163,25 @@ class ViewController: NSViewController {
             createTimer(timeInterval: slider.intValue)
             slider.isEnabled = true
         } else {
-            timerToParseIndicator?.invalidate()
-            timerToParseIndicator = nil
-            timer?.invalidate()
-            timer = nil
-            timeToParseLabel.stringValue = "00:00"
+            cancelTimers()
             slider.isEnabled = false
+            timeToParseLabel.stringValue = "0s"
             print("timer off")
         }
     }
     
     @IBAction func sliderChanged(_ sender: NSSlider) {
         if timer != nil {
-            timer?.invalidate()
-            timer = nil
+            cancelTimers()
         }
           createTimer(timeInterval: sender.intValue)
-        timerTimeLabel.stringValue = "\(sender.intValue)m"
+          timerTimeLabel.stringValue = "\(sender.intValue)m"
     }
     
     @IBAction func loginButtonPressed(_ sender: NSButton) {
         if checkUser() {
             TimerView.isHidden = false
+            hideOrUnHideElements()
         }
     }
     

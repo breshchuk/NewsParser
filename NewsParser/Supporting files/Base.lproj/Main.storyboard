@@ -781,6 +781,10 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
+                                    <progressIndicator hidden="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="wix-ic-ySO">
+                                        <rect key="frame" x="185" y="135" width="16" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    </progressIndicator>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OM3-nG-GCw">
                                         <rect key="frame" x="241" y="13" width="54" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -845,6 +849,7 @@
                         <outlet property="descriptionLabel" destination="6Xs-mX-47v" id="wsN-Ys-YBN"/>
                         <outlet property="emailTextField" destination="IkC-Dv-Dc0" id="mqk-W0-cbq"/>
                         <outlet property="loginButton" destination="7RK-BJ-ptZ" id="l4R-PH-7KP"/>
+                        <outlet property="parsingIndicator" destination="wix-ic-ySO" id="b12-m7-4y6"/>
                         <outlet property="passTextField" destination="7Ip-6h-xyu" id="gGS-fb-6XV"/>
                         <outlet property="slider" destination="Xk3-ef-1eD" id="4Sl-er-kEx"/>
                         <outlet property="timeToParseLabel" destination="Tbk-h7-gf1" id="3cJ-aV-zba"/>
