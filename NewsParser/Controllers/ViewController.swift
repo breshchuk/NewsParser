@@ -90,7 +90,8 @@ class ViewController: NSViewController {
     }
     
     @objc private func updateTimeToParseLabel() {
-        let time = Date().timeIntervalSince(timer!.fireDate)
+        guard let timerTime = timer?.fireDate else { return }
+        let time = Date().timeIntervalSince(timerTime)
         
         let hours = -(Int(time) / 3600)
         let minutes = -(Int(time) / 60 % 60)
@@ -131,8 +132,8 @@ class ViewController: NSViewController {
         return success
     }
     
-    private func createTimer(timeInterval: Double) {
-        let ti = timeInterval * 60
+    private func createTimer(timeInterval: Int32) {
+        let ti = Double(timeInterval * 60)
         timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
         timerToParseIndicator = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeToParseLabel), userInfo: nil, repeats: true)
         print("timer \(ti)")
@@ -140,7 +141,7 @@ class ViewController: NSViewController {
     
     @IBAction func switchChanged(_ sender: NSSwitch) {
         if sender.state == .on, timer == nil {
-            createTimer(timeInterval: slider.doubleValue)
+            createTimer(timeInterval: slider.intValue)
             slider.isEnabled = true
         } else {
             timerToParseIndicator?.invalidate()
@@ -158,9 +159,8 @@ class ViewController: NSViewController {
             timer?.invalidate()
             timer = nil
         }
-          createTimer(timeInterval: sender.doubleValue)
+          createTimer(timeInterval: sender.intValue)
         timerTimeLabel.stringValue = "\(sender.intValue)m"
-        
     }
     
     @IBAction func loginButtonPressed(_ sender: NSButton) {
