@@ -44,7 +44,6 @@ class ViewController: NSViewController {
         timerTimeLabel.stringValue = "\(slider.stringValue) min"
         slider.isEnabled = false
         
-        
         //MARK: - Check user
         if Auth.auth().currentUser != nil {
             TimerView.isHidden = false
@@ -136,19 +135,17 @@ class ViewController: NSViewController {
         }
     }
 
-    private func checkUser() -> Bool {
-        var success = false
+    private func checkUser() {
         if Auth.auth().currentUser == nil {
             Auth.auth().signIn(withEmail: emailTextField.stringValue, password: passTextField.stringValue) { [weak self] authResult , error in
                 if let error = error {
                     self?.view.presentError(error)
                 } else {
-                    success = !success
+                    
                 }
             }
             
         }
-        return success
     }
     
     private func createTimer(timeInterval: Int32) {
@@ -179,10 +176,13 @@ class ViewController: NSViewController {
     }
     
     @IBAction func loginButtonPressed(_ sender: NSButton) {
-        if checkUser() {
-            TimerView.isHidden = false
-            hideOrUnHideElements()
-        }
+        checkUser()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: { [weak self] in
+            if Auth.auth().currentUser != nil {
+                self?.TimerView.isHidden = false
+                self?.hideOrUnHideElements()
+            }
+        })
     }
     
     
