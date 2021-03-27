@@ -174,7 +174,7 @@ class ParserFromNY: NewsParserProtocol {
     private func getTextUnderImage(imageDiv: Element) throws -> String {
         if let textUnderImage = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").first()?.text() {
             guard let textUnderImageAuthor = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").first()?.text() else { return textUnderImage }
-            return textUnderImage + textUnderImageAuthor
+            return textUnderImage + " " + textUnderImageAuthor
         } else if let textUnderImage = try imageDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span > span:nth-child(2)").first()?.text() {
             return textUnderImage
         }
@@ -194,7 +194,11 @@ class ParserFromNY: NewsParserProtocol {
         var date = String()
         if let header = try mainArticle.select("header").first(), let div = try header.select("div.css-79elbk").first() {
             textUnderTitleImage = try div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + " " + div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
-            date = try header.select("div.css-18e8msd > ul > li > time").attr("datetime")
+            if let _date = try header.select("div.css-18e8msd > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            } else if let _date = try header.select("div.css-1lvorsa > time").first()?.attr("datetime") {
+                date = _date
+            }
             
         } else if let headerDiv = try mainArticle.select("div.css-1422fwo").first() {
             textUnderTitleImage = try headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + " " + headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
