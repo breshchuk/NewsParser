@@ -709,24 +709,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="493" height="284"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Xs-mX-47v">
-                                <rect key="frame" x="18" y="212" width="335" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Log in with user which is connected with your Firebase" id="sHa-lg-T7Y">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7RK-BJ-ptZ">
-                                <rect key="frame" x="52" y="36" width="66" height="32"/>
-                                <buttonCell key="cell" type="push" title="Enter" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gcS-s9-UdB">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="loginButtonPressed:" target="XfG-lQ-9wD" id="pMZ-4E-Wys"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gg5-i3-pf8">
                                 <rect key="frame" x="18" y="244" width="124" height="26"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" title="News Parser" id="FX8-Xh-QC5">
@@ -793,78 +775,22 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Rw-rQ-2Aq">
-                                        <rect key="frame" x="363" y="182" width="88" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" title="Sign Out" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="42a-KT-cpd">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="signOutButtonPressed:" target="XfG-lQ-9wD" id="i5x-zQ-mmg"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </customView>
-                            <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="40" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mhq-cg-MHa">
-                                <rect key="frame" x="15" y="101" width="131" height="82"/>
-                                <subviews>
-                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IkC-Dv-Dc0">
-                                        <rect key="frame" x="0.0" y="61" width="131" height="21"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Email" drawsBackground="YES" id="MlH-0r-5gL">
-                                            <font key="font" usesAppearanceFont="YES"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField verticalHuggingPriority="750" textCompletion="NO" contentType="password" translatesAutoresizingMaskIntoConstraints="NO" id="7Ip-6h-xyu">
-                                        <rect key="frame" x="0.0" y="0.0" width="131" height="21"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Password" drawsBackground="YES" id="fmg-x6-v6h">
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="IkC-Dv-Dc0" firstAttribute="height" secondItem="Mhq-cg-MHa" secondAttribute="height" multiplier="0.256098" id="kJw-aT-245"/>
-                                    <constraint firstItem="IkC-Dv-Dc0" firstAttribute="width" secondItem="Mhq-cg-MHa" secondAttribute="width" id="zw6-Qa-Z3u"/>
-                                </constraints>
-                                <visibilityPriorities>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                </visibilityPriorities>
-                                <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                </customSpacing>
-                            </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="I3P-hA-Mrc" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="45" id="4B8-zn-9b6"/>
-                            <constraint firstItem="6Xs-mX-47v" firstAttribute="top" secondItem="gg5-i3-pf8" secondAttribute="bottom" constant="16" id="7ZA-Gs-wvz"/>
-                            <constraint firstItem="Mhq-cg-MHa" firstAttribute="centerX" secondItem="7RK-BJ-ptZ" secondAttribute="centerX" constant="-4.5" id="8D6-2y-rkH"/>
-                            <constraint firstItem="7RK-BJ-ptZ" firstAttribute="top" secondItem="Mhq-cg-MHa" secondAttribute="bottom" constant="38" id="8Sh-kT-Zgj"/>
-                            <constraint firstItem="6Xs-mX-47v" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="Jrd-FA-fIA"/>
-                            <constraint firstAttribute="trailing" secondItem="Mhq-cg-MHa" secondAttribute="trailing" constant="347" id="OYL-og-2QA"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6Xs-mX-47v" secondAttribute="trailing" constant="20" symbolic="YES" id="PHK-jz-wft"/>
                             <constraint firstItem="I3P-hA-Mrc" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="R5w-OT-H1e"/>
-                            <constraint firstItem="6Xs-mX-47v" firstAttribute="leading" secondItem="gg5-i3-pf8" secondAttribute="leading" id="XMT-zH-aW7"/>
-                            <constraint firstItem="Mhq-cg-MHa" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="101" id="YLh-LS-xtO"/>
                             <constraint firstAttribute="bottom" secondItem="I3P-hA-Mrc" secondAttribute="bottom" constant="20" id="YXG-S3-Qh5"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gg5-i3-pf8" secondAttribute="trailing" constant="20" symbolic="YES" id="aer-DX-FsD"/>
-                            <constraint firstItem="Mhq-cg-MHa" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="15" id="fdq-1c-Xif"/>
+                            <constraint firstItem="gg5-i3-pf8" firstAttribute="leading" secondItem="I3P-hA-Mrc" secondAttribute="leading" id="dqX-GO-psX"/>
+                            <constraint firstItem="I3P-hA-Mrc" firstAttribute="top" secondItem="gg5-i3-pf8" secondAttribute="bottom" constant="5" id="iek-JN-Q1y"/>
                             <constraint firstAttribute="trailing" secondItem="I3P-hA-Mrc" secondAttribute="trailing" constant="20" symbolic="YES" id="jLr-Uv-DCZ"/>
-                            <constraint firstItem="Mhq-cg-MHa" firstAttribute="top" secondItem="6Xs-mX-47v" secondAttribute="bottom" constant="29" id="xb4-Sa-2YV"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="TimerView" destination="I3P-hA-Mrc" id="vOE-uN-ILl"/>
-                        <outlet property="descriptionLabel" destination="6Xs-mX-47v" id="wsN-Ys-YBN"/>
-                        <outlet property="emailTextField" destination="IkC-Dv-Dc0" id="mqk-W0-cbq"/>
-                        <outlet property="loginButton" destination="7RK-BJ-ptZ" id="l4R-PH-7KP"/>
                         <outlet property="parsingIndicator" destination="wix-ic-ySO" id="b12-m7-4y6"/>
-                        <outlet property="passTextField" destination="7Ip-6h-xyu" id="gGS-fb-6XV"/>
                         <outlet property="slider" destination="Xk3-ef-1eD" id="4Sl-er-kEx"/>
                         <outlet property="timeToParseLabel" destination="Tbk-h7-gf1" id="3cJ-aV-zba"/>
                         <outlet property="timerTimeLabel" destination="OM3-nG-GCw" id="Sd3-qo-RpL"/>

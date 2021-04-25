@@ -18,9 +18,6 @@ class ViewController: NSViewController {
     
     
     //MARK: - UI
-    @IBOutlet weak var passTextField: NSTextField!
-    
-    @IBOutlet weak var emailTextField: NSTextField!
     
     @IBOutlet weak var TimerView: NSView!
     
@@ -30,33 +27,25 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var slider: NSSlider!
     
-    @IBOutlet weak var loginButton: NSButton!
-    
-    @IBOutlet weak var descriptionLabel: NSTextField!
-    
     @IBOutlet weak var parsingIndicator: NSProgressIndicator!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         FirebaseApp.configure()
         
-        TimerView.isHidden = true
         timerTimeLabel.stringValue = "\(slider.stringValue) min"
         slider.isEnabled = false
         
         //MARK: - Check user
         if Auth.auth().currentUser != nil {
-            TimerView.isHidden = false
-            hideOrUnHideElements()
+            Auth.auth().signIn(withEmail: "breschuk1@gmail.com", password: "test123") { (result, error) in
+                if let error = error {
+                    print(error)
+                    return
+                }
+            }
         }
         
-    }
-    
-    private func hideOrUnHideElements() {
-        emailTextField.isHidden = !emailTextField.isHidden
-        passTextField.isHidden = !passTextField.isHidden
-        loginButton.isHidden = !loginButton.isHidden
-        descriptionLabel.isHidden = !descriptionLabel.isHidden
     }
     
     private func cancelTimers() {
@@ -134,19 +123,6 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
-    private func checkUser() {
-        if Auth.auth().currentUser == nil {
-            Auth.auth().signIn(withEmail: emailTextField.stringValue, password: passTextField.stringValue) { [weak self] authResult , error in
-                if let error = error {
-                    self?.view.presentError(error)
-                } else {
-                    
-                }
-            }
-            
-        }
-    }
     
     private func createTimer(timeInterval: Int32) {
         let ti = Double(timeInterval * 60)
@@ -174,30 +150,6 @@ class ViewController: NSViewController {
           createTimer(timeInterval: sender.intValue)
           timerTimeLabel.stringValue = "\(sender.intValue)m"
     }
-    
-    @IBAction func loginButtonPressed(_ sender: NSButton) {
-        checkUser()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: { [weak self] in
-            if Auth.auth().currentUser != nil {
-                self?.TimerView.isHidden = false
-                self?.hideOrUnHideElements()
-            }
-        })
-    }
-    
-    
-    @IBAction func signOutButtonPressed(_ sender: NSButton) {
-        do {
-            try Auth.auth().signOut()
-            hideOrUnHideElements()
-            emailTextField.stringValue = ""
-            passTextField.stringValue = ""
-            TimerView.isHidden = true
-        } catch {
-            view.presentError(error)
-        }
-    }
-    
     
 }
 
