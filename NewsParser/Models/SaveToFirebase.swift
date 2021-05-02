@@ -10,6 +10,7 @@ import Firebase
 import CryptoKit
 
 class SaveToFirebase {
+    
     var ref = Database.database().reference().child("news")
     
     func createMD5forNews(newsURL: String) -> String {

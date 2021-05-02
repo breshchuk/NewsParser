@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-struct News {
+struct News: Decodable {
     
     let newsURL : String
     let title : String

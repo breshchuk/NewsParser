@@ -22,6 +22,8 @@
 		F26F10C425FFCB42001A6114 /* LocalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F10C125FFCB42001A6114 /* LocalUser.swift */; };
 		F26F10C525FFCB42001A6114 /* ParserFromNY.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F10C225FFCB42001A6114 /* ParserFromNY.swift */; };
 		F26F10C625FFCB42001A6114 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F10C325FFCB42001A6114 /* News.swift */; };
+		F2D63C08263F19FB00AF25CF /* ParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D63C07263F19FB00AF25CF /* ParserErrors.swift */; };
+		F2DBC7AC263DF5D6009AE292 /* ParserFromContextualWebSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DBC7AB263DF5D6009AE292 /* ParserFromContextualWebSearch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		F26F10C125FFCB42001A6114 /* LocalUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalUser.swift; sourceTree = "<group>"; };
 		F26F10C225FFCB42001A6114 /* ParserFromNY.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserFromNY.swift; sourceTree = "<group>"; };
 		F26F10C325FFCB42001A6114 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		F2D63C07263F19FB00AF25CF /* ParserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserErrors.swift; sourceTree = "<group>"; };
+		F2DBC7AB263DF5D6009AE292 /* ParserFromContextualWebSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserFromContextualWebSearch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 				F26F109625FFBFBE001A6114 /* AppDelegate.swift */,
 				F26F109A25FFBFC0001A6114 /* Assets.xcassets */,
 				F26F109C25FFBFC0001A6114 /* Main.storyboard */,
+				F2D63C07263F19FB00AF25CF /* ParserErrors.swift */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -112,6 +117,7 @@
 				F22EE10A2607BD0B0081BB13 /* SaveToFirebase.swift */,
 				F22EE10D260894220081BB13 /* NewsParserProtocol.swift */,
 				F22EE110260896770081BB13 /* NewsProtocol.swift */,
+				F2DBC7AB263DF5D6009AE292 /* ParserFromContextualWebSearch.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -199,6 +205,8 @@
 				F26F109925FFBFBE001A6114 /* ViewController.swift in Sources */,
 				F26F10C525FFCB42001A6114 /* ParserFromNY.swift in Sources */,
 				F22EE10E260894220081BB13 /* NewsParserProtocol.swift in Sources */,
+				F2D63C08263F19FB00AF25CF /* ParserErrors.swift in Sources */,
+				F2DBC7AC263DF5D6009AE292 /* ParserFromContextualWebSearch.swift in Sources */,
 				F26F10C425FFCB42001A6114 /* LocalUser.swift in Sources */,
 				F22EE111260896770081BB13 /* NewsProtocol.swift in Sources */,
 				F26F10C625FFCB42001A6114 /* News.swift in Sources */,
