@@ -63,34 +63,27 @@ class ViewController: NSViewController {
         parsingIndicator.isHidden = false
         parsingIndicator.startAnimation(self)
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-        //MARK: - Parse data
-        do {
-            for parser in self!.parsers {
-                let news = try parser.getNews()
-                DispatchQueue.main.async {
-                    self?.newsArray.append(contentsOf: news )
-                }
-            }
-        } catch Exception.Error(let type, let message) {
-            print(type)
-            print(message)
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        
-        //MARK: - Save data
         let saver = SaveToFirebase()
         
-            for item in self!.newsArray {
-               saver.saveNews(news: item)
-        }
-            DispatchQueue.main.async {
-                 self?.newsArray.removeAll()
-                self?.createTimer(timeInterval: self!.slider.intValue)
-                self?.parsingIndicator.stopAnimation(self)
-                self?.parsingIndicator.isHidden = true
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+        //MARK: - Parse data
+            for parser in self.parsers {
+                 parser.getNews { result in
+                    switch result {
+                    case .success(let news):
+                       for item in news {
+                           saver.saveNews(news: item)
+                          }
+                        DispatchQueue.main.async {
+                            self.newsArray.removeAll()
+                            self.createTimer(timeInterval: self.slider.intValue)
+                            self.parsingIndicator.stopAnimation(self)
+                            self.parsingIndicator.isHidden = true
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
             }
         }
         
