@@ -37,18 +37,32 @@ class ParserFromNY: NewsParserProtocol {
         
     }
     
-    func getNews() throws -> [News] {
-        let doc : Document = try parseToHTML(html: getURLTreeFromStr(strURL: strNewsWorldURL))
-       if let latestNews = try doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first() {
-        for element : Element in latestNews.children() {
+    func getNews(completionHandler: @escaping (_ result: Result<[News], ParserErrors>) -> Void ) {
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            guard let doc: Document = try? self.parseToHTML(html: self.getURLTreeFromStr(strURL: strNewsWorldURL)) else {
+                DispatchQueue.main.async {
+                    completionHandler(.failure(.doc))
+                }
+                return
+            }
+            guard let latestNews = try? doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first() else {
+                DispatchQueue.main.async {
+                    completionHandler(.failure(.latestNews))
+                }
+                return
+            }
+        for element: Element in latestNews.children() {
             if element.hasClass("css-ye6x8s") {
-              try getAllNewsData(element: element)
+                    if (try? self.getAllNewsData(element: element)) == nil {
+                        completionHandler(.failure(.parse))
+                        return
+                    }
             }
         }
-        } else {
-            
+            DispatchQueue.main.async {
+                completionHandler(.success(newsArray))
+            }
         }
-        return newsArray
     }
     
    private func getAuthors(authors: String) -> [String] {
