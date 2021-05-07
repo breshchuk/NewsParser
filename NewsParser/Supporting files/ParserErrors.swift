@@ -11,5 +11,5 @@ enum ParserErrors: Error {
     case doc
     case latestNews
     case parse
-    case custom(errorStr: Error)
+    case custom(errorStr: String)
 }
