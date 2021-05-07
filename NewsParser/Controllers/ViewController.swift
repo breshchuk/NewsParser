@@ -11,8 +11,10 @@ import SwiftSoup
 
 class ViewController: NSViewController {
     
-   private var newsArray = [News]()
-   private var parsers: [NewsParserProtocol] = [ParserFromNY()]
+   private var parsers: [NewsParserProtocol] = [
+    ParserFromContextualWebSearch(),
+    ParserFromNY()
+   ]
    private var timer : Timer?
    private var timerToParseIndicator: Timer?
     
@@ -37,15 +39,16 @@ class ViewController: NSViewController {
         slider.isEnabled = false
         
         //MARK: - Check user
-        if Auth.auth().currentUser != nil {
+        if Auth.auth().currentUser == nil {
             Auth.auth().signIn(withEmail: "breschuk1@gmail.com", password: "test123") { (result, error) in
                 if let error = error {
                     print(error)
                     return
+                } else if let result = result {
+                    print("-------------", result)
                 }
             }
         }
-        
     }
     
     private func cancelTimers() {
@@ -53,7 +56,6 @@ class ViewController: NSViewController {
         timerToParseIndicator = nil
         timer?.invalidate()
         timer = nil
-        
     }
     
     
@@ -74,14 +76,13 @@ class ViewController: NSViewController {
                        for item in news {
                            saver.saveNews(news: item)
                           }
-                        DispatchQueue.main.async {
-                            self.newsArray.removeAll()
-                            self.createTimer(timeInterval: self.slider.intValue)
-                            self.parsingIndicator.stopAnimation(self)
-                            self.parsingIndicator.isHidden = true
-                        }
                     case .failure(let error):
                         print(error)
+                    }
+                    DispatchQueue.main.async {
+                        self.createTimer(timeInterval: self.slider.intValue)
+                        self.parsingIndicator.stopAnimation(self)
+                        self.parsingIndicator.isHidden = true
                     }
                 }
             }
