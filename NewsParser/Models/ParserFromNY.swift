@@ -234,6 +234,8 @@ class ParserFromNY: NewsParserProtocol {
                 date = _date
             } else if let _date = try mainArticle.select("#story > div.css-avv6cj > div.css-8cjwld.epjyd6m0 > ul > li > time").first()?.attr("datetime") {
                 date = _date
+            } else if let _date = try mainArticle.select("#story > div.css-avv6cj > div.css-19t39wi > ul > li > time").first()?.attr("datetime") {
+                date = _date
             }
             
         } else if let fullBleedHeaderContent = try mainArticle.select("#fullBleedHeaderContent").first() {
