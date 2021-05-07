@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8909B2E22644483B007F96C4 /* NewsFromContextualWebSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */; };
 		F22EE10B2607BD0B0081BB13 /* SaveToFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22EE10A2607BD0B0081BB13 /* SaveToFirebase.swift */; };
 		F22EE10E260894220081BB13 /* NewsParserProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22EE10D260894220081BB13 /* NewsParserProtocol.swift */; };
 		F22EE111260896770081BB13 /* NewsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22EE110260896770081BB13 /* NewsProtocol.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFromContextualWebSearch.swift; sourceTree = "<group>"; };
 		F22EE10A2607BD0B0081BB13 /* SaveToFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveToFirebase.swift; sourceTree = "<group>"; };
 		F22EE10D260894220081BB13 /* NewsParserProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParserProtocol.swift; sourceTree = "<group>"; };
 		F22EE110260896770081BB13 /* NewsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsProtocol.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				F22EE10D260894220081BB13 /* NewsParserProtocol.swift */,
 				F22EE110260896770081BB13 /* NewsProtocol.swift */,
 				F2DBC7AB263DF5D6009AE292 /* ParserFromContextualWebSearch.swift */,
+				8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				F26F109925FFBFBE001A6114 /* ViewController.swift in Sources */,
 				F26F10C525FFCB42001A6114 /* ParserFromNY.swift in Sources */,
 				F22EE10E260894220081BB13 /* NewsParserProtocol.swift in Sources */,
+				8909B2E22644483B007F96C4 /* NewsFromContextualWebSearch.swift in Sources */,
 				F2D63C08263F19FB00AF25CF /* ParserErrors.swift in Sources */,
 				F2DBC7AC263DF5D6009AE292 /* ParserFromContextualWebSearch.swift in Sources */,
 				F26F10C425FFCB42001A6114 /* LocalUser.swift in Sources */,
