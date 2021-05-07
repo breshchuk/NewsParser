@@ -37,7 +37,7 @@ class ParserFromNY: NewsParserProtocol {
         
     }
     
-    func getNews(completionHandler: @escaping (_ result: Result<[News], ParserErrors>) -> Void ) {
+    func getNews(completionHandler: @escaping (_ result: Result<[NewsProtocol], ParserErrors>) -> Void ) {
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             guard let doc: Document = try? self.parseToHTML(html: self.getURLTreeFromStr(strURL: strNewsWorldURL)) else {
                 DispatchQueue.main.async {
