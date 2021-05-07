@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NewsParserProtocol {
-    func getNews(completionHandler: @escaping (_ result: Result<[News], ParserErrors>) -> Void ) 
+    func getNews(completionHandler: @escaping (_ result: Result<[NewsProtocol], ParserErrors>) -> Void ) 
 }
