@@ -79,13 +79,17 @@ class ViewController: NSViewController {
                        for item in news {
                            saver.saveNews(news: item)
                           }
+                        DispatchQueue.main.async {
+                            self.createTimer(timeInterval: self.slider.intValue)
+                            self.parsingIndicator.stopAnimation(self)
+                            self.parsingIndicator.isHidden = true
+                        }
                     case .failure(let error):
-                        print(error)
-                    }
-                    DispatchQueue.main.async {
-                        self.createTimer(timeInterval: self.slider.intValue)
-                        self.parsingIndicator.stopAnimation(self)
-                        self.parsingIndicator.isHidden = true
+                        self.view.presentError(error)
+                        DispatchQueue.main.async {
+                            self.parsingIndicator.stopAnimation(self)
+                            self.parsingIndicator.isHidden = true
+                        }
                     }
                 }
             }
