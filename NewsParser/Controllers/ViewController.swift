@@ -15,9 +15,10 @@ class ViewController: NSViewController {
     ParserFromContextualWebSearch(),
     ParserFromNY()
    ]
+    
+   private var saveService: SaveManager!
    private var timer : Timer?
    private var timerToParseIndicator: Timer?
-    
     
     //MARK: - UI
     
@@ -34,6 +35,8 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         FirebaseApp.configure()
+        
+        saveService = SaveToFile()
         
         timerTimeLabel.stringValue = "\(slider.stringValue) min"
         slider.isEnabled = false
@@ -145,5 +148,12 @@ class ViewController: NSViewController {
           timerTimeLabel.stringValue = "\(sender.intValue)m"
     }
     
+    @IBAction func saveJSONButtonPressed(_ sender: NSButton) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            if let self = self {
+                self.saveService.save()
+            }
+        }
+    }
 }
 
