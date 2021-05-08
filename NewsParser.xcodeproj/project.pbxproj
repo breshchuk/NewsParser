@@ -22,7 +22,6 @@
 		F26F10AF25FFC1B5001A6114 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = F26F10AE25FFC1B5001A6114 /* FirebaseDatabase */; };
 		F26F10B325FFC286001A6114 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = F26F10B225FFC286001A6114 /* SwiftSoup */; };
 		F26F10B625FFC34A001A6114 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F26F10B525FFC34A001A6114 /* GoogleService-Info.plist */; };
-		F26F10C425FFCB42001A6114 /* LocalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F10C125FFCB42001A6114 /* LocalUser.swift */; };
 		F26F10C525FFCB42001A6114 /* ParserFromNY.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F10C225FFCB42001A6114 /* ParserFromNY.swift */; };
 		F26F10C625FFCB42001A6114 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26F10C325FFCB42001A6114 /* News.swift */; };
 		F2D63C08263F19FB00AF25CF /* ParserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D63C07263F19FB00AF25CF /* ParserErrors.swift */; };
@@ -44,7 +43,6 @@
 		F26F109F25FFBFC0001A6114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F26F10A025FFBFC0001A6114 /* NewsParser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewsParser.entitlements; sourceTree = "<group>"; };
 		F26F10B525FFC34A001A6114 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		F26F10C125FFCB42001A6114 /* LocalUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalUser.swift; sourceTree = "<group>"; };
 		F26F10C225FFCB42001A6114 /* ParserFromNY.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserFromNY.swift; sourceTree = "<group>"; };
 		F26F10C325FFCB42001A6114 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		F2D63C07263F19FB00AF25CF /* ParserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserErrors.swift; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 		F26F10C025FFCB42001A6114 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F26F10C125FFCB42001A6114 /* LocalUser.swift */,
 				8970083C264676E9003D2C57 /* Parsers */,
 				8970083B264676CD003D2C57 /* News */,
 				8970083D264676F9003D2C57 /* Firebase */,
@@ -243,7 +240,6 @@
 				F2D63C08263F19FB00AF25CF /* ParserErrors.swift in Sources */,
 				F2DBC7AC263DF5D6009AE292 /* ParserFromContextualWebSearch.swift in Sources */,
 				8970083A264673A5003D2C57 /* ReadFromFirebase.swift in Sources */,
-				F26F10C425FFCB42001A6114 /* LocalUser.swift in Sources */,
 				F22EE111260896770081BB13 /* NewsProtocol.swift in Sources */,
 				F26F10C625FFCB42001A6114 /* News.swift in Sources */,
 				F22EE10B2607BD0B0081BB13 /* SaveToFirebase.swift in Sources */,
