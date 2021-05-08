@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8909B2E22644483B007F96C4 /* NewsFromContextualWebSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */; };
+		8970083A264673A5003D2C57 /* ReadFromFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89700839264673A5003D2C57 /* ReadFromFirebase.swift */; };
+		8970083F26467759003D2C57 /* SaveToFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8970083E26467759003D2C57 /* SaveToFile.swift */; };
 		F22EE10B2607BD0B0081BB13 /* SaveToFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22EE10A2607BD0B0081BB13 /* SaveToFirebase.swift */; };
 		F22EE10E260894220081BB13 /* NewsParserProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22EE10D260894220081BB13 /* NewsParserProtocol.swift */; };
 		F22EE111260896770081BB13 /* NewsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22EE110260896770081BB13 /* NewsProtocol.swift */; };
@@ -29,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFromContextualWebSearch.swift; sourceTree = "<group>"; };
+		89700839264673A5003D2C57 /* ReadFromFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFromFirebase.swift; sourceTree = "<group>"; };
+		8970083E26467759003D2C57 /* SaveToFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveToFile.swift; sourceTree = "<group>"; };
 		F22EE10A2607BD0B0081BB13 /* SaveToFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveToFirebase.swift; sourceTree = "<group>"; };
 		F22EE10D260894220081BB13 /* NewsParserProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsParserProtocol.swift; sourceTree = "<group>"; };
 		F22EE110260896770081BB13 /* NewsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsProtocol.swift; sourceTree = "<group>"; };
@@ -62,6 +66,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8970083B264676CD003D2C57 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				F26F10C325FFCB42001A6114 /* News.swift */,
+				8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		8970083C264676E9003D2C57 /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				F26F10C225FFCB42001A6114 /* ParserFromNY.swift */,
+				F2DBC7AB263DF5D6009AE292 /* ParserFromContextualWebSearch.swift */,
+			);
+			path = Parsers;
+			sourceTree = "<group>";
+		};
+		8970083D264676F9003D2C57 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				F22EE10A2607BD0B0081BB13 /* SaveToFirebase.swift */,
+				89700839264673A5003D2C57 /* ReadFromFirebase.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		F26F108A25FFBFBE001A6114 = {
 			isa = PBXGroup;
 			children = (
@@ -114,13 +145,12 @@
 			isa = PBXGroup;
 			children = (
 				F26F10C125FFCB42001A6114 /* LocalUser.swift */,
-				F26F10C225FFCB42001A6114 /* ParserFromNY.swift */,
-				F26F10C325FFCB42001A6114 /* News.swift */,
-				F22EE10A2607BD0B0081BB13 /* SaveToFirebase.swift */,
+				8970083C264676E9003D2C57 /* Parsers */,
+				8970083B264676CD003D2C57 /* News */,
+				8970083D264676F9003D2C57 /* Firebase */,
 				F22EE10D260894220081BB13 /* NewsParserProtocol.swift */,
 				F22EE110260896770081BB13 /* NewsProtocol.swift */,
-				F2DBC7AB263DF5D6009AE292 /* ParserFromContextualWebSearch.swift */,
-				8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */,
+				8970083E26467759003D2C57 /* SaveToFile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -209,8 +239,10 @@
 				F26F10C525FFCB42001A6114 /* ParserFromNY.swift in Sources */,
 				F22EE10E260894220081BB13 /* NewsParserProtocol.swift in Sources */,
 				8909B2E22644483B007F96C4 /* NewsFromContextualWebSearch.swift in Sources */,
+				8970083F26467759003D2C57 /* SaveToFile.swift in Sources */,
 				F2D63C08263F19FB00AF25CF /* ParserErrors.swift in Sources */,
 				F2DBC7AC263DF5D6009AE292 /* ParserFromContextualWebSearch.swift in Sources */,
+				8970083A264673A5003D2C57 /* ReadFromFirebase.swift in Sources */,
 				F26F10C425FFCB42001A6114 /* LocalUser.swift in Sources */,
 				F22EE111260896770081BB13 /* NewsProtocol.swift in Sources */,
 				F26F10C625FFCB42001A6114 /* News.swift in Sources */,
@@ -286,7 +318,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -343,7 +375,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -361,7 +393,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 53J8TRD2C8;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = NewsParser/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -382,7 +414,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 53J8TRD2C8;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = NewsParser/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
