@@ -54,7 +54,9 @@ class ParserFromNY: NewsParserProtocol {
         for element: Element in latestNews.children() {
             if element.hasClass("css-ye6x8s") {
                     if (try? self.getAllNewsData(element: element)) == nil {
+                        DispatchQueue.main.async {
                         completionHandler(.failure(.parse))
+                        }
                         return
                     }
             }

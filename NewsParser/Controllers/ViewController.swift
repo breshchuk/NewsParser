@@ -11,14 +11,14 @@ import SwiftSoup
 
 class ViewController: NSViewController {
     
-   private var parsers: [NewsParserProtocol] = [
-    ParserFromContextualWebSearch(),
-    ParserFromNY()
-   ]
+    private var parsers: [NewsParserProtocol] = [
+        ParserFromContextualWebSearch(),
+        ParserFromNY()
+    ]
     
-   private var saveService: SaveManager!
-   private var timer : Timer?
-   private var timerToParseIndicator: Timer?
+    private var saveService: SaveManager!
+    private var timer : Timer?
+    private var timerToParseIndicator: Timer?
     
     //MARK: - UI
     
@@ -70,27 +70,24 @@ class ViewController: NSViewController {
         
         let saver = SaveToFirebase()
         
-        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
         //MARK: - Parse data
-            for parser in self.parsers {
-                 parser.getNews { result in
-                    switch result {
-                    case .success(let news):
-                       for item in news {
-                           saver.saveNews(news: item)
-                          }
-                        DispatchQueue.main.async {
-                            self.createTimer(timeInterval: self.slider.intValue)
-                            self.parsingIndicator.stopAnimation(self)
-                            self.parsingIndicator.isHidden = true
-                        }
-                    case .failure(let error):
-                        self.view.presentError(error)
-                        DispatchQueue.main.async {
-                            self.parsingIndicator.stopAnimation(self)
-                            self.parsingIndicator.isHidden = true
-                        }
+        for parser in self.parsers {
+            parser.getNews { result in
+                switch result {
+                case .success(let news):
+                    for item in news {
+                        saver.saveNews(news: item)
                     }
+                    self.createTimer(timeInterval: self.slider.intValue)
+                    self.parsingIndicator.stopAnimation(self)
+                    self.parsingIndicator.isHidden = true
+                case .failure(let error):
+                    self.view.presentError(error)
+                    let switcher = NSSwitch()
+                    switcher.state = .off
+                    self.switchChanged(switcher)
+                    self.parsingIndicator.stopAnimation(self)
+                    self.parsingIndicator.isHidden = true
                 }
             }
         }
@@ -107,10 +104,10 @@ class ViewController: NSViewController {
         
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours)h")
+            times.append("\(hours)h")
         }
         if minutes > 0 {
-          times.append("\(minutes)m")
+            times.append("\(minutes)m")
         }
         times.append("\(seconds)s")
         
@@ -118,18 +115,20 @@ class ViewController: NSViewController {
     }
     
     
-
+    
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            // Update the view, if already loaded.
         }
     }
     
     private func createTimer(timeInterval: Int32) {
-        let ti = Double(timeInterval * 60)
-        timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
-        timerToParseIndicator = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeToParseLabel), userInfo: nil, repeats: true)
-        print("timer \(ti)")
+        if timer == nil {
+            let ti = Double(timeInterval * 60)
+            timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
+            timerToParseIndicator = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeToParseLabel), userInfo: nil, repeats: true)
+            print("timer \(ti)")
+        }
     }
     
     @IBAction func switchChanged(_ sender: NSSwitch) {
@@ -148,16 +147,12 @@ class ViewController: NSViewController {
         if timer != nil {
             cancelTimers()
         }
-          createTimer(timeInterval: sender.intValue)
-          timerTimeLabel.stringValue = "\(sender.intValue)m"
+        createTimer(timeInterval: sender.intValue)
+        timerTimeLabel.stringValue = "\(sender.intValue)m"
     }
     
     @IBAction func saveJSONButtonPressed(_ sender: NSButton) {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            if let self = self {
-                self.saveService.save()
-            }
-        }
+        self.saveService.save()
     }
 }
 
