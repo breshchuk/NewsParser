@@ -22,6 +22,7 @@ class ViewController: NSViewController {
     
     //MARK: - UI
     
+    @IBOutlet weak var switchOutlet: NSSwitch!
     @IBOutlet weak var TimerView: NSView!
     
     @IBOutlet weak var timerTimeLabel: NSTextField!
@@ -83,9 +84,8 @@ class ViewController: NSViewController {
                     self.parsingIndicator.isHidden = true
                 case .failure(let error):
                     self.view.presentError(error)
-                    let switcher = NSSwitch()
-                    switcher.state = .off
-                    self.switchChanged(switcher)
+                    self.switchOutlet.state = .off
+                    self.switchChanged(self.switchOutlet)
                     self.parsingIndicator.stopAnimation(self)
                     self.parsingIndicator.isHidden = true
                 }
@@ -123,7 +123,7 @@ class ViewController: NSViewController {
     }
     
     private func createTimer(timeInterval: Int32) {
-        if timer == nil {
+        if timer == nil, switchOutlet.state != .off {
             let ti = Double(timeInterval * 60)
             timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
             timerToParseIndicator = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeToParseLabel), userInfo: nil, repeats: true)
