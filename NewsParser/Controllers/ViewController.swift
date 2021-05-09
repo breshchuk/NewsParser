@@ -152,7 +152,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func saveJSONButtonPressed(_ sender: NSButton) {
-        self.saveService.save()
+        self.saveService.save(data: nil)
     }
 }
 

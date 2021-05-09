@@ -9,7 +9,7 @@ import Foundation
 import AppKit
 
 protocol SaveManager {
-    func save()
+    func save(data: Data?)
 }
 
 class SaveToFile: SaveManager {
@@ -20,14 +20,19 @@ class SaveToFile: SaveManager {
         self.readFromFirebase = readManager
     }
     
-    func save() {
-        readFromFirebase.getData { result in
-            switch result {
-            case .success(let data):
-                self.saveToFile(data: data)
-            case .failure(let error):
-                print(error)
-            }
+    func save(data: Data?) {
+        if let data = data {
+            saveToFile(data: data)
+            } else {
+                readFromFirebase.getData { result in
+                    switch result {
+                    case .success(let data):
+                        self.saveToFile(data: data)
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+
         }
     }
     
@@ -51,7 +56,6 @@ class SaveToFile: SaveManager {
             
             print(finishUrl)
             do {
-//                try String(data: data, encoding: .utf8)!.write(to: finishUrl, atomically: true, encoding: .utf8)
                 try data.write(to: finishUrl)
             } catch {
                 print(error.localizedDescription)
