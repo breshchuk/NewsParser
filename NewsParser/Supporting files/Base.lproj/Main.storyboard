@@ -842,7 +842,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Q7-yg-aDJ">
-                                <rect key="frame" x="24" y="202" width="119" height="21"/>
+                                <rect key="frame" x="24" y="202" width="226" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Some word which title may contains" drawsBackground="YES" id="Iyu-Qx-ogE">
                                     <font key="font" metaFont="system"/>
@@ -850,19 +850,8 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEy-az-tJk">
-                                <rect key="frame" x="17" y="158" width="92" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Filter title" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yP5-1k-M6j">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="filterByTitleButtonPressed:" target="deD-j6-TdF" id="y3d-se-9PA"/>
-                                </connections>
-                            </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LH5-Jx-UKF">
-                                <rect key="frame" x="24" y="120" width="114" height="21"/>
+                                <rect key="frame" x="26" y="157" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Author" drawsBackground="YES" id="tZo-sJ-aCG">
                                     <font key="font" metaFont="system"/>
@@ -870,35 +859,13 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ofj-nV-7uN">
-                                <rect key="frame" x="17" y="72" width="108" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Filter author" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8yy-xi-ayf">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="filterByAuthorButtonPressed:" target="deD-j6-TdF" id="zPC-tc-Y7f"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xJo-t8-aru">
-                                <rect key="frame" x="195" y="72" width="100" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Filter by all" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="40e-6a-gu3">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="filterByAllPressed:" target="deD-j6-TdF" id="w48-fK-ca6"/>
-                                </connections>
-                            </button>
                             <datePicker verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="agN-Cr-Nn3">
-                                <rect key="frame" x="296" y="256" width="139" height="21"/>
+                                <rect key="frame" x="73" y="109" width="139" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerMode="range" datePickerStyle="textField" useCurrentDate="YES" id="bMI-5M-bDS">
                                     <font key="font" metaFont="system"/>
-                                    <date key="date" timeIntervalSinceReferenceDate="642252983.31228006">
-                                        <!--2021-05-09 11:36:23 +0000-->
+                                    <date key="date" timeIntervalSinceReferenceDate="642269090.418311">
+                                        <!--2021-05-09 16:04:50 +0000-->
                                     </date>
                                     <date key="minDate" timeIntervalSinceReferenceDate="631141200">
                                         <!--2020-12-31 21:00:00 +0000-->
@@ -909,12 +876,12 @@
                                 </datePickerCell>
                             </datePicker>
                             <datePicker verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AO7-Mn-0c3">
-                                <rect key="frame" x="296" y="210" width="139" height="21"/>
+                                <rect key="frame" x="73" y="63" width="139" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="dVc-PK-T0a">
                                     <font key="font" metaFont="system"/>
-                                    <date key="date" timeIntervalSinceReferenceDate="631234800">
-                                        <!--2021-01-01 23:00:00 +0000-->
+                                    <date key="date" timeIntervalSinceReferenceDate="642269090.42223096">
+                                        <!--2021-05-09 16:04:50 +0000-->
                                     </date>
                                     <date key="minDate" timeIntervalSinceReferenceDate="631141200">
                                         <!--2020-12-31 21:00:00 +0000-->
@@ -925,7 +892,7 @@
                                 </datePickerCell>
                             </datePicker>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XhQ-2O-gCf">
-                                <rect key="frame" x="245" y="261" width="35" height="16"/>
+                                <rect key="frame" x="22" y="114" width="35" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="From" id="p6h-nf-BYf">
                                     <font key="font" metaFont="system"/>
@@ -934,7 +901,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sH4-QK-Ayc">
-                                <rect key="frame" x="251" y="213" width="19" height="16"/>
+                                <rect key="frame" x="28" y="66" width="19" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="To" id="CF2-TT-bPD">
                                     <font key="font" metaFont="system"/>
@@ -942,15 +909,15 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vON-Z1-U8A">
-                                <rect key="frame" x="311" y="158" width="98" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xJo-t8-aru">
+                                <rect key="frame" x="305" y="78" width="66" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Filter Date" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NvQ-L5-DgW">
+                                <buttonCell key="cell" type="push" title="Filter" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="40e-6a-gu3">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="filterByDatePressed:" target="deD-j6-TdF" id="CjO-yy-I8Q"/>
+                                    <action selector="filterByAllPressed:" target="deD-j6-TdF" id="w48-fK-ca6"/>
                                 </connections>
                             </button>
                         </subviews>
