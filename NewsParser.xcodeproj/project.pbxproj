@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8909B2E22644483B007F96C4 /* NewsFromContextualWebSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */; };
-		895EE6FB2647FD020005D68D /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895EE6FA2647FD020005D68D /* FilterViewController.swift */; };
 		8970083A264673A5003D2C57 /* ReadFromFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89700839264673A5003D2C57 /* ReadFromFirebase.swift */; };
 		8970083F26467759003D2C57 /* SaveToFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8970083E26467759003D2C57 /* SaveToFile.swift */; };
 		897008412646B570003D2C57 /* FilterNewsJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897008402646B570003D2C57 /* FilterNewsJSON.swift */; };
@@ -32,7 +31,6 @@
 
 /* Begin PBXFileReference section */
 		8909B2E12644483B007F96C4 /* NewsFromContextualWebSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFromContextualWebSearch.swift; sourceTree = "<group>"; };
-		895EE6FA2647FD020005D68D /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		89700839264673A5003D2C57 /* ReadFromFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFromFirebase.swift; sourceTree = "<group>"; };
 		8970083E26467759003D2C57 /* SaveToFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveToFile.swift; sourceTree = "<group>"; };
 		897008402646B570003D2C57 /* FilterNewsJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNewsJSON.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				F26F109825FFBFBE001A6114 /* ViewController.swift */,
-				895EE6FA2647FD020005D68D /* FilterViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -238,7 +235,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				895EE6FB2647FD020005D68D /* FilterViewController.swift in Sources */,
 				F26F109925FFBFBE001A6114 /* ViewController.swift in Sources */,
 				897008412646B570003D2C57 /* FilterNewsJSON.swift in Sources */,
 				F26F10C525FFCB42001A6114 /* ParserFromNY.swift in Sources */,
