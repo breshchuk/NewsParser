@@ -864,8 +864,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerMode="range" datePickerStyle="textField" useCurrentDate="YES" id="bMI-5M-bDS">
                                     <font key="font" metaFont="system"/>
-                                    <date key="date" timeIntervalSinceReferenceDate="642269090.418311">
-                                        <!--2021-05-09 16:04:50 +0000-->
+                                    <date key="date" timeIntervalSinceReferenceDate="642269179.21778798">
+                                        <!--2021-05-09 16:06:19 +0000-->
                                     </date>
                                     <date key="minDate" timeIntervalSinceReferenceDate="631141200">
                                         <!--2020-12-31 21:00:00 +0000-->
@@ -880,8 +880,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="dVc-PK-T0a">
                                     <font key="font" metaFont="system"/>
-                                    <date key="date" timeIntervalSinceReferenceDate="642269090.42223096">
-                                        <!--2021-05-09 16:04:50 +0000-->
+                                    <date key="date" timeIntervalSinceReferenceDate="642269179.22170103">
+                                        <!--2021-05-09 16:06:19 +0000-->
                                     </date>
                                     <date key="minDate" timeIntervalSinceReferenceDate="631141200">
                                         <!--2020-12-31 21:00:00 +0000-->
@@ -919,6 +919,14 @@
                                 <connections>
                                     <action selector="filterByAllPressed:" target="deD-j6-TdF" id="w48-fK-ca6"/>
                                 </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M3a-ML-tkg">
+                                <rect key="frame" x="86" y="32" width="106" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Filter by date" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kHb-zH-fc5">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
                             </button>
                         </subviews>
                     </view>
