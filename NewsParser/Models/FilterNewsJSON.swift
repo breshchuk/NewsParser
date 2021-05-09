@@ -12,7 +12,7 @@ enum FilterError: Error {
 }
 
 enum FilterParametres {
-    case everything(author: String, title: String, fromDate: String, toDate: String)
+    case everything(author: String, title: String, fromDate: String?, toDate: String?)
 }
 
 protocol FilterJSON {
@@ -107,7 +107,7 @@ class FilterNewsJSON: FilterJSON {
         return filteredJSON
     }
     
-    private func filterEverything(author: String, title: String, from: String, to: String) -> [String: Any] {
+    private func filterEverything(author: String, title: String, from: String?, to: String?) -> [String: Any] {
         var filteredArray = [String: Any]()
         if !author.isEmpty {
             filteredArray = filterByAuthor(authorName: author)

@@ -13,6 +13,7 @@ class FilterViewController: NSViewController {
     
     @IBOutlet weak var filterByAuthorTextField: NSTextField!
     
+    @IBOutlet weak var filterByDateCheckBox: NSButton!
     @IBOutlet weak var fromDatePicker: NSDatePicker!
     @IBOutlet weak var toDatePicker: NSDatePicker!
     
