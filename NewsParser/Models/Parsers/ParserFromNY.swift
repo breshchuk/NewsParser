@@ -37,18 +37,34 @@ class ParserFromNY: NewsParserProtocol {
         
     }
     
-    func getNews() throws -> [News] {
-        let doc : Document = try parseToHTML(html: getURLTreeFromStr(strURL: strNewsWorldURL))
-       if let latestNews = try doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first() {
-        for element : Element in latestNews.children() {
+    func getNews(completionHandler: @escaping (_ result: Result<[NewsProtocol], ParserErrors>) -> Void ) {
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            guard let doc: Document = try? self.parseToHTML(html: self.getURLTreeFromStr(strURL: strNewsWorldURL)) else {
+                DispatchQueue.main.async {
+                    completionHandler(.failure(.doc))
+                }
+                return
+            }
+            guard let latestNews = try? doc.select("body > #app > div:nth-child(2) #site-content > #collection-world > div.css-psuupz.e1o5byef0 > div > #stream-panel > div.css-13mho3u > ol").first() else {
+                DispatchQueue.main.async {
+                    completionHandler(.failure(.latestNews))
+                }
+                return
+            }
+        for element: Element in latestNews.children() {
             if element.hasClass("css-ye6x8s") {
-              try getAllNewsData(element: element)
+                    if (try? self.getAllNewsData(element: element)) == nil {
+                        DispatchQueue.main.async {
+                        completionHandler(.failure(.parse))
+                        }
+                        return
+                    }
             }
         }
-        } else {
-            
+            DispatchQueue.main.async {
+                completionHandler(.success(newsArray))
+            }
         }
-        return newsArray
     }
     
    private func getAuthors(authors: String) -> [String] {
@@ -193,23 +209,47 @@ class ParserFromNY: NewsParserProtocol {
         var textUnderTitleImage = String()
         var date = String()
         if let header = try mainArticle.select("header").first(), let div = try header.select("div.css-79elbk").first() {
+            
             textUnderTitleImage = try div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + " " + div.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
+            
             if let _date = try header.select("div.css-18e8msd > ul > li > time").first()?.attr("datetime") {
                 date = _date
             } else if let _date = try header.select("div.css-1lvorsa > time").first()?.attr("datetime") {
                 date = _date
+            } else if let _date = try header.select("div.css-1hdytw > time").first()?.attr("datetime") {
+                date = _date
+            } else if let _date = try header.select("div.css-8cjwld.epjyd6m0 > ul > li > time").first()?.attr("datetime") {
+                date = _date
             }
             
         } else if let headerDiv = try mainArticle.select("div.css-1422fwo").first() {
+            
             textUnderTitleImage = try headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + " " + headerDiv.select("div.css-79elbk > div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
+            
             date = try headerDiv.select("div.css-pscyww > div > span > time").attr("datetime")
             
         } else if let secondHeaderDiv = try mainArticle.select("div.css-79elbk").first() {
+            
             textUnderTitleImage = try secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-16f3y1r.e13ogyst0").text() + " " + secondHeaderDiv.select("div.css-1a48zt4.ehw59r15 > figure > figcaption > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2)").text()
-            date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").attr("datetime")
+            
+            if let _date = try mainArticle.select("#story > header > div.css-18e8msd > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            } else if let _date = try mainArticle.select("#story > div.css-avv6cj > div.css-8cjwld.epjyd6m0 > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            } else if let _date = try mainArticle.select("#story > div.css-avv6cj > div.css-19t39wi > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            } else if let _date = try mainArticle.select("#story > header > div.css-1hdytw > time").first()?.attr("datetime") {
+                date = _date
+            }
         } else if let fullBleedHeaderContent = try mainArticle.select("#fullBleedHeaderContent").first() {
+            
             textUnderTitleImage = try fullBleedHeaderContent.select("div.css-yi0xdk.e1gnum310 > p > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2) > span").text()
-            date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").attr("datetime")
+            
+            if let _date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            } else if let _date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-1sowyjy > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            }
         }
         
         //MARK: - Get main text

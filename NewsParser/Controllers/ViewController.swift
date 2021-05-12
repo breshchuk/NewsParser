@@ -11,17 +11,18 @@ import SwiftSoup
 
 class ViewController: NSViewController {
     
-   private var newsArray = [News]()
-   private var parsers: [NewsParserProtocol] = [ParserFromNY()]
-   private var timer : Timer?
-   private var timerToParseIndicator: Timer?
+    private var parsers: [NewsParserProtocol] = [
+        ParserFromContextualWebSearch(),
+        ParserFromNY()
+    ]
     
+    private var saveService: SaveManager!
+    private var timer : Timer?
+    private var timerToParseIndicator: Timer?
     
     //MARK: - UI
-    @IBOutlet weak var passTextField: NSTextField!
     
-    @IBOutlet weak var emailTextField: NSTextField!
-    
+    @IBOutlet weak var switchOutlet: NSSwitch!
     @IBOutlet weak var TimerView: NSView!
     
     @IBOutlet weak var timerTimeLabel: NSTextField!
@@ -30,34 +31,28 @@ class ViewController: NSViewController {
     
     @IBOutlet weak var slider: NSSlider!
     
-    @IBOutlet weak var loginButton: NSButton!
-    
-    @IBOutlet weak var descriptionLabel: NSTextField!
-    
     @IBOutlet weak var parsingIndicator: NSProgressIndicator!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         FirebaseApp.configure()
         
-        TimerView.isHidden = true
+        saveService = SaveToFile()
+        
         timerTimeLabel.stringValue = "\(slider.stringValue) min"
         slider.isEnabled = false
         
-        
         //MARK: - Check user
-        if Auth.auth().currentUser != nil {
-            TimerView.isHidden = false
-            hideOrUnHideElements()
+        if Auth.auth().currentUser == nil {
+            Auth.auth().signIn(withEmail: "breschuk1@gmail.com", password: "test123") { (result, error) in
+                if let error = error {
+                    self.presentError(error)
+                    return
+                } else if let result = result {
+                    print("-------------", result)
+                }
+            }
         }
-        
-    }
-    
-    private func hideOrUnHideElements() {
-        emailTextField.isHidden = !emailTextField.isHidden
-        passTextField.isHidden = !passTextField.isHidden
-        loginButton.isHidden = !loginButton.isHidden
-        descriptionLabel.isHidden = !descriptionLabel.isHidden
     }
     
     private func cancelTimers() {
@@ -65,7 +60,6 @@ class ViewController: NSViewController {
         timerToParseIndicator = nil
         timer?.invalidate()
         timer = nil
-        
     }
     
     
@@ -75,34 +69,26 @@ class ViewController: NSViewController {
         parsingIndicator.isHidden = false
         parsingIndicator.startAnimation(self)
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-        //MARK: - Parse data
-        do {
-            for parser in self!.parsers {
-                let news = try parser.getNews()
-                DispatchQueue.main.async {
-                    self?.newsArray.append(contentsOf: news )
-                }
-            }
-        } catch Exception.Error(let type, let message) {
-            print(type)
-            print(message)
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        
-        //MARK: - Save data
         let saver = SaveToFirebase()
         
-            for item in self!.newsArray {
-               saver.saveNews(news: item)
-        }
-            DispatchQueue.main.async {
-                 self?.newsArray.removeAll()
-                self?.createTimer(timeInterval: self!.slider.intValue)
-                self?.parsingIndicator.stopAnimation(self)
-                self?.parsingIndicator.isHidden = true
+        //MARK: - Parse data
+        for parser in self.parsers {
+            parser.getNews { result in
+                switch result {
+                case .success(let news):
+                    for item in news {
+                        saver.saveNews(news: item)
+                    }
+                    self.createTimer(timeInterval: self.slider.intValue)
+                    self.parsingIndicator.stopAnimation(self)
+                    self.parsingIndicator.isHidden = true
+                case .failure(let error):
+                    self.view.presentError(error)
+                    self.switchOutlet.state = .off
+                    self.switchChanged(self.switchOutlet)
+                    self.parsingIndicator.stopAnimation(self)
+                    self.parsingIndicator.isHidden = true
+                }
             }
         }
         
@@ -118,10 +104,10 @@ class ViewController: NSViewController {
         
         var times: [String] = []
         if hours > 0 {
-          times.append("\(hours)h")
+            times.append("\(hours)h")
         }
         if minutes > 0 {
-          times.append("\(minutes)m")
+            times.append("\(minutes)m")
         }
         times.append("\(seconds)s")
         
@@ -129,33 +115,20 @@ class ViewController: NSViewController {
     }
     
     
-
+    
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            // Update the view, if already loaded.
         }
-    }
-
-    private func checkUser() -> Bool {
-        var success = false
-        if Auth.auth().currentUser == nil {
-            Auth.auth().signIn(withEmail: emailTextField.stringValue, password: passTextField.stringValue) { [weak self] authResult , error in
-                if let error = error {
-                    self?.view.presentError(error)
-                } else {
-                    success = !success
-                }
-            }
-            
-        }
-        return success
     }
     
     private func createTimer(timeInterval: Int32) {
-        let ti = Double(timeInterval * 60)
-        timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
-        timerToParseIndicator = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeToParseLabel), userInfo: nil, repeats: true)
-        print("timer \(ti)")
+        if timer == nil, switchOutlet.state != .off {
+            let ti = Double(timeInterval * 60)
+            timer = Timer.scheduledTimer(timeInterval: ti, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
+            timerToParseIndicator = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimeToParseLabel), userInfo: nil, repeats: true)
+            print("timer \(ti)")
+        }
     }
     
     @IBAction func switchChanged(_ sender: NSSwitch) {
@@ -174,17 +147,12 @@ class ViewController: NSViewController {
         if timer != nil {
             cancelTimers()
         }
-          createTimer(timeInterval: sender.intValue)
-          timerTimeLabel.stringValue = "\(sender.intValue)m"
+        createTimer(timeInterval: sender.intValue)
+        timerTimeLabel.stringValue = "\(sender.intValue)m"
     }
     
-    @IBAction func loginButtonPressed(_ sender: NSButton) {
-        if checkUser() {
-            TimerView.isHidden = false
-            hideOrUnHideElements()
-        }
+    @IBAction func saveJSONButtonPressed(_ sender: NSButton) {
+        self.saveService.save(data: nil)
     }
-    
-    
 }
 
