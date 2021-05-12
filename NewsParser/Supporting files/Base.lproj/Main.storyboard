@@ -824,10 +824,10 @@
             </objects>
             <point key="canvasLocation" x="75.5" y="700"/>
         </scene>
-        <!--Filter View Controller-->
+        <!--Filter-->
         <scene sceneID="sdC-cf-GaZ">
             <objects>
-                <viewController id="deD-j6-TdF" customClass="FilterViewController" customModule="NewsParser" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Filter" id="deD-j6-TdF" customClass="FilterViewController" customModule="NewsParser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="9NZ-ty-Hbn">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -864,8 +864,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerMode="range" datePickerStyle="textField" useCurrentDate="YES" id="bMI-5M-bDS">
                                     <font key="font" metaFont="system"/>
-                                    <date key="date" timeIntervalSinceReferenceDate="642324421.54615605">
-                                        <!--2021-05-10 07:27:01 +0000-->
+                                    <date key="date" timeIntervalSinceReferenceDate="642534758.32441497">
+                                        <!--2021-05-12 17:52:38 +0000-->
                                     </date>
                                     <date key="minDate" timeIntervalSinceReferenceDate="631141200">
                                         <!--2020-12-31 21:00:00 +0000-->
@@ -880,8 +880,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerStyle="textField" useCurrentDate="YES" id="dVc-PK-T0a">
                                     <font key="font" metaFont="system"/>
-                                    <date key="date" timeIntervalSinceReferenceDate="642324421.550282">
-                                        <!--2021-05-10 07:27:01 +0000-->
+                                    <date key="date" timeIntervalSinceReferenceDate="642534758.32854998">
+                                        <!--2021-05-12 17:52:38 +0000-->
                                     </date>
                                     <date key="minDate" timeIntervalSinceReferenceDate="631141200">
                                         <!--2020-12-31 21:00:00 +0000-->

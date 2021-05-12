@@ -29,6 +29,7 @@ class SaveToFile: SaveManager {
                     case .success(let data):
                         self.saveToFile(data: data)
                     case .failure(let error):
+                     // TODO
                         print(error)
                     }
                 }
@@ -54,14 +55,11 @@ class SaveToFile: SaveManager {
             let url = savePanel.url!
             let finishUrl = url.appendingPathExtension("json")
             
-            print(finishUrl)
             do {
                 try data.write(to: finishUrl)
             } catch {
                 print(error.localizedDescription)
             }
-        } else {
-            print("canceled")
         }
      }
 }
