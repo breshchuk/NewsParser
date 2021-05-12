@@ -46,7 +46,7 @@ class ViewController: NSViewController {
         if Auth.auth().currentUser == nil {
             Auth.auth().signIn(withEmail: "breschuk1@gmail.com", password: "test123") { (result, error) in
                 if let error = error {
-                    print(error)
+                    self.presentError(error)
                     return
                 } else if let result = result {
                     print("-------------", result)
