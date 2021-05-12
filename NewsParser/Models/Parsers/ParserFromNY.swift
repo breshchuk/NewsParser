@@ -241,12 +241,15 @@ class ParserFromNY: NewsParserProtocol {
             } else if let _date = try mainArticle.select("#story > header > div.css-1hdytw > time").first()?.attr("datetime") {
                 date = _date
             }
-            
         } else if let fullBleedHeaderContent = try mainArticle.select("#fullBleedHeaderContent").first() {
             
             textUnderTitleImage = try fullBleedHeaderContent.select("div.css-yi0xdk.e1gnum310 > p > span.css-cnj6d5.e1z0qqy90 > span:nth-child(2) > span").text()
             
-            date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").attr("datetime")
+            if let _date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-18e8msd > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            } else if let _date = try fullBleedHeaderContent.select("div.css-1wx1auc.e1gnum311 > div.css-1sowyjy > ul > li > time").first()?.attr("datetime") {
+                date = _date
+            }
         }
         
         //MARK: - Get main text
