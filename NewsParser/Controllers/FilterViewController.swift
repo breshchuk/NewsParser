@@ -44,19 +44,21 @@ class FilterViewController: NSViewController {
         }
     }
 
-    // TODO: Make date filter
     @IBAction func filterByAllPressed(_ sender: NSButton) {
-        var fromDate: String?
-        var toDate: String?
+        let fromDate = fromDatePicker.dateValue
+        let toDate = toDatePicker.dateValue
+        var isFilterByDate = false
         if filterByDateCheckBox.state == .on {
-            
+            isFilterByDate.toggle()
         }
                 filterJSONManager.filter(
                     by: [.everything(
                             author: filterByAuthorTextField.stringValue,
                             title: filterByTitleTextFiled.stringValue,
                             fromDate: fromDate,
-                            toDate: toDate)
+                            toDate: toDate,
+                            isFilterByDate: isFilterByDate
+                    )
                     ],
                     jsonData: self.dataForFilter) { result in
                     switch result {
